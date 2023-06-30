@@ -1,0 +1,1223 @@
+-- Notify Intro Library
+
+local NotifLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/KinIei/Dynissimo/main/Scripts/AkaliNotify/.lua"))()
+local Notify = NotifLib.Notify
+
+-- Anti Reload
+
+if getgenv().Loader and not getgenv().Debugger then
+        Notify({
+            Description = "Dumb ass you did it twice already",
+            Title = "Error",
+            Duration = 5
+        })
+    return
+end
+
+pcall(function()
+    getgenv().Loader = true
+end)
+
+-- Anti Cheat Bypass
+
+local AntiCheatAndAntiStaff = loadstring(game:HttpGet("https://pastebin.com/raw/m1DZGaRM"))()
+--								https://raw.githubusercontent.com/OptioniaI/AntiBan-RejoinKick/main/Script
+
+
+-- Variables & Objectives
+
+local RunService = game:GetService("RunService")
+local HttpService = game:GetService("HttpService")
+local TeleportService = game:GetService("TeleportService")
+local TweenService = game:GetService("TweenService")
+local InputService = game:GetService("UserInputService")
+local Storage = game:GetService("ReplicatedStorage")
+local StarterGui = game:GetService("StarterGui")
+local CoreGui = game:GetService("CoreGui")
+local RobloxGui = CoreGui.RobloxGui
+local Modules = RobloxGui.Modules
+local Workspace = game:GetService("Workspace")
+local Camera = Workspace.Camera
+local Terrain = Workspace.Terrain
+local Lighting = game:GetService("Lighting")
+local Structure = Workspace.Structure
+local Base = Structure:WaitForChild("Baseplate")
+local KillPart = Structure:WaitForChild("KillPart"):WaitForChild("KillPart")
+local TimeLeaderboard = Structure:WaitForChild("SurvivalLeaderboard")
+local KillLeaderboard = Structure:WaitForChild("KillLeaderboard")
+local Outline = Base:WaitForChild("SelectionBox")
+local Spawn = Structure:WaitForChild("SpawnLocation")
+local Gifts = Workspace:WaitForChild("Gifts")
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+local Mouse = Player:GetMouse()
+local PlaceId = game.PlaceId
+local JobId = game.JobId
+
+-- Exploit Configurations
+
+getgenv().SuperiorPrefix = ";"
+getgenv().SuperiorWhitelist = {}
+getgenv().Reach = 30
+getgenv().Amplifier = 10
+getgenv().ReachTransparency = 0.75
+getgenv().ESPNameSize = 100
+getgenv().WalkSpeed = 16
+getgenv().JumpOffset = -0.75
+getgenv().Hiding = false
+getgenv().AutoFarm = false
+getgenv().ClickTeleport = false
+
+-- Reach Configurations
+--new reach
+loadstring(game:HttpGet("https://raw.githubusercontent.com/yallass1231/yallass/main/yall%20ass"))()
+mt = getrawmetatable(game)
+oldIndex = mt.__index 
+setreadonly(mt, false)
+
+
+mt.__index = function(a,b)
+    if a == "Weld" or b == "Weld" then
+        return "ReachAttacher"
+    end
+    return oldIndex(a,b)
+end
+
+setsimulationradius(math.huge, math.huge)
+
+RunService.Stepped:Connect(function()
+    pcall(function()
+        for i,v in pairs(Players:GetPlayers()) do
+            if v ~= Player then
+                if v ~= Player and not table.find(getgenv().SuperiorWhitelist, v.Name) then
+        	        if v.Character.Humanoid.Health > 0 then
+                        if (v.Character.HumanoidRootPart.Position - Spawn.Position).Magnitude > 25 then
+        	                if (v.Character.HumanoidRootPart.Position - Player.Character.HumanoidRootPart.Position).Magnitude <= getgenv().Reach then
+        		    	    	for _, x in pairs(v.Character:GetChildren()) do
+        		    	    		if x:IsA("Part") then 
+        		    	    			if v.Character:FindFirstChild("LLeft Aarm") then
+        		    	    				v.Character:FindFirstChild("LLeft Aarm"):Destroy()
+        		    	    			end
+                                        for Amplifier = 1, getgenv().Amplifier do
+                                            firetouchinterest(Player.Character:FindFirstChildOfClass("Tool").Handle, x, 0)
+                                            firetouchinterest(Player.Character:FindFirstChildOfClass("Tool").Handle, x, 1)
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end)
+    pcall(function()
+        for _, b in pairs(Gifts:GetChildren()) do
+            if b:IsA("BasePart") then
+                if (b.Position - Player.Character.HumanoidRootPart.Position).Magnitude <= 50 then
+                    firetouchinterest(b, Player.Character.HumanoidRootPart, 0)
+                    firetouchinterest(b, Player.Character.HumanoidRootPart, 1)
+                end
+            end
+        end
+    end)
+end)
+
+-- Library Variables
+		
+local Library = loadstring(game:HttpGet("https://pastebin.com/raw/C9mPjYzy"))()
+--------------------------https://raw.githubusercontent.com/OptioniaI/bleklib/main/library.lua
+
+local Window = Library:Create({
+    Name = "NIGGER HUB OH YEAHHH",
+    StartupSound = {
+        Toggle = true,
+        SoundID = "rbxassetid://6958727243",
+        TimePosition = 1,
+        IntroText = "NIGGER HUB"
+    }
+})
+
+local MainTab = Window:Tab("Main")
+local PlayerTab = Window:Tab("Player")
+local CommandsTab = Window:Tab("Commands")
+local MiscTab = Window:Tab("Miscellaneous")
+local CreditsTab = Window:Tab("Credits")
+
+-- Main Tab Configuration
+
+MainTab:Label("• Reach Sliders")
+
+MainTab:Slider("Reach", 30, 0, 30, function(Value)
+    getgenv().Reach = Value
+end)
+
+MainTab:Slider("Amplifier", 10, 0, 10, function(Value)
+    getgenv().Amplifier = Value
+end)
+
+MainTab:Label("• Toggles")
+
+MainTab:Toggle("Auto Swing", function(Value)
+    getgenv().AutoSwing = Value
+end)
+
+MainTab:Toggle("Auto Farm", function(Value)
+	getgenv().AutoFarm = Value
+	if getgenv().AutoFarm then
+    	if getgenv().Hiding then
+    	    while task.wait() do
+    	        if getgenv().AutoFarm then
+    	            pcall(function()
+    	                for _, Varieties in pairs(Gifts:GetChildren()) do
+    	                    if Varieties:IsA("BasePart") then
+    	                        if (Player.Character.HumanoidRootPart.Position - Varieties.Position).Magnitude <= math.huge then
+    	                            if Player.Backpack:FindFirstChildOfClass("Tool") and Player.Character:FindFirstChildOfClass("Tool") == nil then
+    	                                local Tool = Player.Backpack:FindFirstChildOfClass("Tool")
+    	                                Player.Character.Humanoid:EquipTool(Tool)
+    	                            end
+    	                            local Speed = 53
+    	                            local Distance = (Player.Character.HumanoidRootPart.Position - Varieties.Position).Magnitude
+    	                            local TweenSpeed = Distance/tonumber(Speed)
+    	                            local Tween = TweenService:Create(Player.Character.HumanoidRootPart, TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear), {CFrame = Varieties.CFrame * CFrame.new(0, -3, 0)})
+    	                            Tween:Play()
+    	                            Tween.Completed:Wait()
+    	                            local SpawnSpeed = 54
+    	                            local Distance = (Player.Character.HumanoidRootPart.Position - Spawn.Position).Magnitude
+    	                            local TweenSpawnSpeed = Distance/tonumber(SpawnSpeed)
+    	                            local Tween = TweenService:Create(Player.Character.HumanoidRootPart, TweenInfo.new(TweenSpawnSpeed, Enum.EasingStyle.Linear), {CFrame = Spawn.CFrame * CFrame.new(0, -1.5, 0)})
+    	                            Tween:Play()
+    	                        end
+    	                    end
+    	                end
+    	            end)
+    	        end
+    	    end
+    	else
+    	    while task.wait() do
+    	        if getgenv().AutoFarm then
+    	            pcall(function()
+    	                for _, Varieties in pairs(Gifts:GetChildren()) do
+    	                    if Varieties:IsA("BasePart") then
+    	                        if Player.Backpack:FindFirstChildOfClass("Tool") and Player.Character:FindFirstChildOfClass("Tool") == nil then
+    	                            local Tool = Player.Backpack:FindFirstChildOfClass("Tool")
+    	                            Player.Character.Humanoid:EquipTool(Tool)
+    	                        end
+    	                        local Speed = 53
+    	                        local Distance = (Player.Character.HumanoidRootPart.Position - Varieties.Position).Magnitude
+    	                        local TweenSpeed = Distance/tonumber(Speed)
+    	                        local Tween = TweenService:Create(Player.Character.HumanoidRootPart, TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear), {CFrame = Varieties.CFrame})
+    	                        Tween:Play()
+    	                        Tween.Completed:Wait()
+    	                        local SpawnSpeed = 54
+    	                        local Distance = (Player.Character.HumanoidRootPart.Position - Spawn.Position).Magnitude
+    	                        local TweenSpawnSpeed = Distance/tonumber(SpawnSpeed)
+    	                        local Tween = TweenService:Create(Player.Character.HumanoidRootPart, TweenInfo.new(TweenSpawnSpeed, Enum.EasingStyle.Linear), {CFrame = Spawn.CFrame * CFrame.new(0, 2.5, 0)})
+    	                        Tween:Play()
+    	                    end
+    	                end
+    	            end)
+    	        end
+    	    end
+    	end
+	elseif getgenv().AutoFarm == false then
+        if getgenv().Hiding then
+            getgenv().AutoFarm = false
+            task.wait(0.5)
+            local SpawnSpeed = 54
+            local Distance = (Player.Character:WaitForChild("HumanoidRootPart").Position - Spawn.Position).Magnitude
+            local TweenSpawnSpeed = Distance/tonumber(SpawnSpeed)
+            local Tween = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpawnSpeed, Enum.EasingStyle.Linear), {CFrame = Spawn.CFrame * CFrame.new(0, -1.5, 0)})
+            Tween:Play()
+        else
+            getgenv().AutoFarm = false
+            task.wait(0.5)
+            local SpawnSpeed = 54
+            local Distance = (Player.Character:WaitForChild("HumanoidRootPart").Position - Spawn.Position).Magnitude
+            local TweenSpawnSpeed = Distance/tonumber(SpawnSpeed)
+            local Tween = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpawnSpeed, Enum.EasingStyle.Linear), {CFrame = Spawn.CFrame * CFrame.new(0, 2.5, 0)})
+            Tween:Play()
+        end
+	end
+end)
+
+MainTab:Label("• Whitelist Configurations")
+
+MainTab:Textbox("Whitelist", function(Value)
+    for i,v in pairs(Shorten(Value)) do
+        function Whitelist(wlplr)
+            table.insert(getgenv().SuperiorWhitelist, wlplr)
+        end
+        pcall(function()
+            Whitelist(WhitelistedTarget.Name)
+            if v ~= nil and v ~= Player and v ~= plr and not table.find(getgenv().SuperiorWhitelist, plr.Name) then
+            	Whitelist(v.Name)
+            end
+        end)
+    end
+end)
+
+MainTab:Textbox("UnWhitelist", function(Value)
+    for i,v in pairs(Shorten(Value)) do
+        function UnWhitelist(unwlplr)
+            for num, user in pairs(getgenv().SuperiorWhitelist) do
+            	if user == unwlplr then
+            		table.remove(getgenv().SuperiorWhitelist, num)
+            	end
+            end
+        end
+        pcall(function()
+            UnWhitelist(UnWhitelistedTarget.Name)
+    	    if v ~= nil and v ~= Player and v ~= plr and not table.find(getgenv().SuperiorWhitelist, plr.Name) then
+    	    	UnWhitelist(v.Name)
+    	    end
+        end)
+    end
+end)
+
+MainTab:Button("Clear Whitelist", function()
+    table.clear(getgenv().SuperiorWhitelist)
+end)
+
+-- Player Tab Configuration
+
+PlayerTab:Label("• LocalPlayer")
+
+PlayerTab:Slider("WalkSpeed", 16, 16, 55, function(Value)
+    getgenv().WalkSpeed = Value
+end)
+
+PlayerTab:Toggle("ESP", function(Value)
+    getgenv().ESP = Value
+	if getgenv().ESP then
+        function LoopESP()
+            while task.wait() do
+                if getgenv().ESP then
+                    pcall(function()
+                        function ESP(PlayerESP)
+                            if PlayerESP ~= Player and PlayerESP.Character and PlayerESP.Character:FindFirstChild("HumanoidRootPart") and not PlayerESP.Character.HumanoidRootPart:FindFirstChild("UsernameTarget") then
+                                local UsernameTarget = Instance.new("BillboardGui")
+                                UsernameTarget.Name = "UsernameTarget"
+                                UsernameTarget.AlwaysOnTop = true
+                                UsernameTarget.LightInfluence = 1
+                                UsernameTarget.StudsOffset = Vector3.new(0, 1, 0)
+                                UsernameTarget.Adornee = PlayerESP.Character.Head
+                                UsernameTarget.Parent = PlayerESP.Character.HumanoidRootPart
+                                local UserTitle = Instance.new("TextLabel")
+                                UserTitle.Name = "UserTitle"
+                                UserTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                                UserTitle.BackgroundTransparency = 1
+                                UserTitle.Size = UDim2.new(1, 0, 1, 0)
+                                UserTitle.Text = PlayerESP.Name
+                                UserTitle.Parent = UsernameTarget
+                                UserTitle.TextColor3 = Color3.new(255, 255, 255)
+                                UserTitle.Font = Enum.Font.GothamBold
+                                UserTitle.TextScaled = true
+                                UserTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+                                UserTitle.TextStrokeTransparency = 0
+                                RunService.Stepped:Connect(function()
+                                    pcall(function()
+                                        UsernameTarget.Size = UDim2.new(0, getgenv().ESPNameSize, 0, getgenv().ESPNameSize)
+                                        if PlayerESP and not table.find(getgenv().SuperiorWhitelist, PlayerESP.Name) then
+                                            PlayerESP.Character.HumanoidRootPart.UsernameTarget.UserTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+                                        else
+                                            PlayerESP.Character.HumanoidRootPart.UsernameTarget.UserTitle.TextColor3 = Color3.fromRGB(54, 115, 214)
+                                        end
+                                        if PlayerESP.Character.Humanoid.Health == 0 then
+                                            pcall(function()
+                                                PlayerESP.Character.HumanoidRootPart.UsernameTarget.UserTitle.TextColor3 = Color3.fromRGB(248, 169, 169)
+                                            end)
+                                        end
+                                    end)
+                                end)
+                            end
+                        end
+                        for i,v in pairs(Players:GetPlayers()) do
+                            ESP(v)
+                        end
+                    end)
+                end
+            end
+        end
+        LoopESP()
+	elseif getgenv().ESP == false then
+        function UnESP()
+            getgenv().ESP = false
+            for i,v in pairs(Workspace:GetDescendants()) do
+                if v.Name == "UsernameTarget" then
+                    v:Destroy()
+                end
+            end
+        end
+        UnESP()
+	end
+end)
+
+PlayerTab:Toggle("Hide / UnHide", function(Value)
+    getgenv().Hiding = Value
+	if getgenv().Hiding then
+        Terrain:Clear()
+        for _, Parts in pairs(Structure:GetChildren()) do
+            if Parts:IsA("BasePart") then
+                Parts.CanCollide = false
+                Parts.CustomPhysicalProperties = nil
+            end
+        end
+        Player.Character:WaitForChild("Head").HUD.Size = UDim2.new(2.25, 0, 0.75, 0)
+        Player.Character:WaitForChild("Head").HUD.MaxDistance = math.huge
+        Player.Character:WaitForChild("Head").HUD.AlwaysOnTop = true
+        if Structure:FindFirstChild("FakeKillPartFolder") then Structure:FindFirstChild("FakeKillPartFolder"):Destroy() end
+        local FakeKillPartFolder = Instance.new("Folder", Structure)
+        local FakeKillPart = Instance.new("Part", FakeKillPartFolder)
+        FakeKillPartFolder.Name = "FakeKillPartFolder"
+        FakeKillPart.Name = "FakeKillPart"
+        Base.CanCollide = false
+        Base.Transparency = 0
+        KillPart.Position = Vector3.new(0, -5000, 0)
+        FakeKillPart.Material = "SmoothPlastic"
+        FakeKillPart.Anchored = true
+        FakeKillPart.Transparency = 0.2
+        FakeKillPart.Color = Color3.fromRGB(145, 146, 228)
+        FakeKillPart.Size = Vector3.new(2048, 160, 2048)
+        FakeKillPart.Position = Vector3.new(0, -82, 0)
+        if Player.Character:FindFirstChild("Animation1") then Player.Character:FindFirstChild("Animation1"):Destroy() end
+        if Player.Character:FindFirstChild("Animation2") then Player.Character:FindFirstChild("Animation2"):Destroy() end
+        local Animation1 = Instance.new("Animation", Player.Character)
+        local Animation2 = Instance.new("Animation", Player.Character)
+        Animation1.AnimationId = "rbxassetid://282574440"
+        Animation2.AnimationId = "rbxassetid://35154961"
+        local AnimationTrack1 = Player.Character:WaitForChild("Humanoid"):LoadAnimation(Animation1)
+        local AnimationTrack2 = Player.Character:WaitForChild("Humanoid"):LoadAnimation(Animation2)
+        Animation1.Name = "Animation1"
+        Animation2.Name = "Animation2"
+        AnimationTrack2.Looped = true
+        AnimationTrack1:Play()
+        AnimationTrack2:Play()
+        AnimationTrack2.TimePosition = 3.15
+        AnimationTrack2:AdjustWeight(1)
+        local Humanoid = Player.Character:FindFirstChildOfClass("Humanoid") or Player.Character:FindFirstChildOfClass("AnimationController")
+        for i,v in next, Humanoid:GetPlayingAnimationTracks() do
+        	v:AdjustSpeed(0)
+        end
+        Player.Character.Animate.Disabled = true
+        Player.Character:WaitForChild("HumanoidRootPart").CFrame = Player.Character:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, -2, 0)
+        for _, Varieties in pairs(Player.Character:GetChildren()) do
+            if Varieties:IsA("BasePart") then
+                Varieties.CanCollide = false
+            end
+        end
+	elseif getgenv().Hiding == false then
+        pcall(function()
+            Spawn.CanCollide = false
+            for _, Parts in pairs(Structure:GetChildren()) do
+                if Parts:IsA("BasePart") and Parts.Name ~= Spawn then
+                    Parts.CanCollide = true
+                end
+            end
+            Player.Character.Head.HUD.Size = UDim2.new(2.25, 0, 0.75, 0)
+            Player.Character.Head.HUD.MaxDistance = 100
+            Player.Character.Head.HUD.AlwaysOnTop = false
+            Base.CanCollide = true
+            Base.Transparency = 0
+            Player.Character.Animate.Disabled = false
+            Structure.FakeKillPartFolder:Destroy()
+            local Humanoid = Player.Character:FindFirstChildOfClass("Humanoid") or Player.Character:FindFirstChildOfClass("AnimationController")
+            for i,v in next, Humanoid:GetPlayingAnimationTracks() do
+            	v:Stop()
+            end
+            Player.Character.HumanoidRootPart.CFrame = Player.Character.HumanoidRootPart.CFrame * CFrame.new(0, 5, 0)
+            for _, Varieties in pairs(Player.Character:GetChildren()) do
+                if Varieties:IsA("BasePart") then
+                    Varieties.CanCollide = true
+                end
+            end
+            KillPart.Position = Vector3.new(0, -83.5, 0)
+            for _, Parts in pairs(Structure:GetDescendants()) do
+                if Parts:IsA("BasePart") then
+                    Parts.CanCollide = true
+                end
+            end
+            Spawn.CanCollide = false
+            KillLeaderboard.CanCollide = false
+            TimeLeaderboard.CanCollide = false
+            KillPart.CanCollide = false
+            getgenv().Hiding = false
+        end)
+	end
+end)
+
+PlayerTab:Toggle("Click Teleport", function(Value)
+    getgenv().ClickTeleport = Value
+    if getgenv().ClickTeleport then
+        local Speed = 54
+        local Distance = (Player.Character.HumanoidRootPart.Position - Mouse.Hit.Position).Magnitude
+        local TweenSpeed = Distance/tonumber(Speed)
+        local Tween = TweenService:Create(Player.Character.HumanoidRootPart, TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear), {CFrame = CFrame.new(Mouse.Hit.Position) * CFrame.new(0, 3, 0)})
+        Tween:Play()
+    end
+end)
+
+PlayerTab:Label("• Teleportation")
+
+PlayerTab:Textbox("Target Kill", function(Value)
+    if getgenv().Hiding then
+        for i,v in pairs(Shorten(Value)) do
+            if v.Character:WaitForChild("Humanoid").Health > 0 and not table.find(getgenv().SuperiorWhitelist, v.Name) then
+                task.spawn(function()
+                    local OriginalCFrame = Player.Character:WaitForChild("HumanoidRootPart").CFrame
+                    local TargetPos = v.Character.HumanoidRootPart.CFrame
+                    local Speed = math.huge
+                    local Distance = (Player.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).Magnitude
+                    local TweenSpeed = Distance/tonumber(Speed)
+                    local Tween = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0), {CFrame = TargetPos * CFrame.new(0, -2, 0)})
+                    Tween:Play()
+                    task.wait(0.125)
+                    Player.Character:WaitForChild("HumanoidRootPart").CFrame = OriginalCFrame
+                end)
+            end
+        end
+    else
+        for i,v in pairs(Shorten(Value)) do
+            if v.Character:WaitForChild("Humanoid").Health > 0 and not table.find(getgenv().SuperiorWhitelist, v.Name) then
+                task.spawn(function()
+                    local OriginalCFrame = Player.Character:WaitForChild("HumanoidRootPart").CFrame
+                    local TargetPos = v.Character.HumanoidRootPart.CFrame
+                    local Speed = math.huge
+                    local Distance = (Player.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).Magnitude
+                    local TweenSpeed = Distance/tonumber(Speed)
+                    local Tween = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0), {CFrame = TargetPos * CFrame.new(-1.5, 0, 3)})
+                    Tween:Play()
+                    task.wait(0.125)
+                    Player.Character:WaitForChild("HumanoidRootPart").CFrame = OriginalCFrame
+                end)
+            end
+        end
+    end
+end)
+
+
+PlayerTab:Textbox("Target Kill Orbit", function(Value)
+	if getgenv().Hiding then
+    	for i,v in pairs(Shorten(Value)) do
+    	    if v.Character:WaitForChild("Humanoid").Health > 0 and not table.find(getgenv().SuperiorWhitelist, v.Name) then
+    	        task.spawn(function()
+    	            local OriginalCFrame = Player.Character:WaitForChild("HumanoidRootPart").CFrame
+    	            local TargetPos = v.Character.HumanoidRootPart.CFrame
+    	            local Speed = math.huge
+    	            local Distance = (Player.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).Magnitude
+    	            local TweenSpeed = Distance/tonumber(Speed)
+    	            local Tween1 = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0), {CFrame = TargetPos * CFrame.new(0, -2, -1.5)})
+    	            local Tween2 = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0), {CFrame = TargetPos * CFrame.new(-1.5, -2, 0)})
+    	            local Tween3 = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0), {CFrame = TargetPos * CFrame.new(0, -2, 1.5)})
+    	            local Tween4 = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0), {CFrame = TargetPos * CFrame.new(1.5, -2, 0)})
+    	            Tween1:Play()
+    	            Tween2:Play()
+    	            Tween3:Play()
+    	            Tween4:Play()
+    	            task.wait(0.1)
+    	            Player.Character:WaitForChild("HumanoidRootPart").CFrame = OriginalCFrame
+    	        end)
+    	    end
+    	end
+	else
+    	for i,v in pairs(Shorten(Value)) do
+    	    if v.Character:WaitForChild("Humanoid").Health > 0 and not table.find(getgenv().SuperiorWhitelist, v.Name) then
+    	        task.spawn(function()
+    	            local OriginalCFrame = Player.Character:WaitForChild("HumanoidRootPart").CFrame
+    	            local TargetPos = v.Character.HumanoidRootPart.CFrame
+    	            local Speed = math.huge
+    	            local Distance = (Player.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).Magnitude
+    	            local TweenSpeed = Distance/tonumber(Speed)
+    	            local Tween1 = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0), {CFrame = TargetPos * CFrame.new(0, 0, -1.5)})
+    	            local Tween2 = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0), {CFrame = TargetPos * CFrame.new(-1.5, 0, 0)})
+    	            local Tween3 = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0), {CFrame = TargetPos * CFrame.new(0, 0, 1.5)})
+    	            local Tween4 = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0), {CFrame = TargetPos * CFrame.new(1.5, 0, 0)})
+    	            Tween1:Play()
+    	            Tween2:Play()
+    	            Tween3:Play()
+    	            Tween4:Play()
+    	            task.wait(0.1)
+    	            Player.Character:WaitForChild("HumanoidRootPart").CFrame = OriginalCFrame
+    	        end)
+    	    end
+    	end
+	end
+end)
+
+PlayerTab:Textbox("Hide Kill", function(Value)
+    task.spawn(function()
+        if getgenv().Hiding then
+            for i,v in pairs(Shorten(Value)) do
+                task.spawn(function()
+                    if v.Character:WaitForChild("Humanoid").Health > 0 and not table.find(getgenv().SuperiorWhitelist, v.Name) then
+                        local Humanoid = Player.Character:FindFirstChildOfClass("Humanoid") or Player.Character:FindFirstChildOfClass("AnimationController")
+                        local HideAnimation = Instance.new("Animation")
+                        HideAnimation.AnimationId = "rbxassetid://181526230"
+                        local Humanoid = Player.Character:WaitForChild("Humanoid")
+                        local LoadAnimation = Humanoid:LoadAnimation(HideAnimation)
+                        local Baseplate = Base
+                        Base.CanCollide = false
+                        KillPart.Position = Vector3.new(0, -5000, 0)
+                        local OriginalCFrame = Player.Character:WaitForChild("HumanoidRootPart").CFrame
+                        local TargetPos = v.Character.HumanoidRootPart.CFrame
+                        local Speed = math.huge
+                        local Distance = (Player.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).Magnitude
+                        local TweenSpeed = Distance/tonumber(Speed)
+                        local Tween = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0), {CFrame = TargetPos * CFrame.new(0, -3, 0)})
+                        Player.Character.Animate.Disabled = true
+                        Workspace.Gravity = 0
+                        LoadAnimation:Play()
+                        Tween:Play()
+                        task.wait(0.09)
+                        Workspace.Gravity = 196.2
+                        Player.Character:WaitForChild("HumanoidRootPart").CFrame = OriginalCFrame
+                        HideAnimation:Destroy()
+                        Base.CanCollide = true
+                        KillPart.Position = Vector3.new(0, -83.5, 0)
+                        Player.Character.Animate.Disabled = false
+	                    for i,v in next, Humanoid:GetPlayingAnimationTracks() do
+	                    	v:Stop()
+	                    end
+                    end
+                end)
+            end
+        else
+            for i,v in pairs(Shorten(Value)) do
+                task.spawn(function()
+                    if v.Character:WaitForChild("Humanoid").Health > 0 and not table.find(getgenv().SuperiorWhitelist, v.Name) then
+                        local Humanoid = Player.Character:FindFirstChildOfClass("Humanoid") or Player.Character:FindFirstChildOfClass("AnimationController")
+                        local HideAnimation = Instance.new("Animation")
+                        HideAnimation.AnimationId = "rbxassetid://181526230"
+                        local Humanoid = Player.Character:WaitForChild("Humanoid")
+                        local LoadAnimation = Humanoid:LoadAnimation(HideAnimation)
+                        local Baseplate = Base
+                        Base.CanCollide = false
+                        KillPart.Position = Vector3.new(0, -5000, 0)
+                        local OriginalCFrame = Player.Character:WaitForChild("HumanoidRootPart").CFrame
+                        local TargetPos = v.Character.HumanoidRootPart.CFrame
+                        local Speed = math.huge
+                        local Distance = (Player.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).Magnitude
+                        local TweenSpeed = Distance/tonumber(Speed)
+                        local Tween = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0), {CFrame = TargetPos * CFrame.new(0, -11.5, 0)})
+                        Player.Character.Animate.Disabled = true
+                        Workspace.Gravity = 0
+                        LoadAnimation:Play()
+                        Tween:Play()
+                        task.wait(0.09)
+                        Workspace.Gravity = 196.2
+                        Player.Character:WaitForChild("HumanoidRootPart").CFrame = OriginalCFrame
+                        HideAnimation:Destroy()
+                        Base.CanCollide = true
+                        KillPart.Position = Vector3.new(0, -83.5, 0)
+                        Player.Character.Animate.Disabled = false
+	                    for i,v in next, Humanoid:GetPlayingAnimationTracks() do
+	                    	v:Stop()
+	                    end
+                    end
+                end)
+            end
+        end
+    end)
+end)
+
+PlayerTab:Textbox("Goto", function(Value)
+    task.spawn(function()
+        if getgenv().Hiding then
+            for _, Varieties in pairs(Shorten(Value)) do
+                if Varieties.Character:WaitForChild("Humanoid").Health > 0 then
+                    local TargetRootPart = Varieties.Character:WaitForChild("HumanoidRootPart")
+                    local Speed = 54
+                    local Distance = (Player.Character.HumanoidRootPart.Position - TargetRootPart.Position).Magnitude
+                    local TweenSpeed = Distance/tonumber(Speed)
+                    local Tween = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear), {CFrame = TargetRootPart.CFrame * CFrame.new(0, -2, 0)})
+                    Tween:Play()
+                end
+            end
+        else
+            for _, Varieties in pairs(Shorten(Value)) do
+                if Varieties.Character:WaitForChild("Humanoid").Health > 0 then
+                    local TargetRootPart = Varieties.Character:WaitForChild("HumanoidRootPart")
+                    local Speed = 54
+                    local Distance = (Player.Character.HumanoidRootPart.Position - TargetRootPart.Position).Magnitude
+                    local TweenSpeed = Distance/tonumber(Speed)
+                    local Tween = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear), {CFrame = TargetRootPart.CFrame})
+                    Tween:Play()
+                end
+            end
+        end
+    end)
+end)
+
+-- Commands Configuration
+
+CommandsTab:Label("Prefix: ;")
+CommandsTab:Label("cmds / commands")
+CommandsTab:Label("r / reach [NUM]")
+CommandsTab:Label("t / target [USER]")
+CommandsTab:Label("wl / whitelist [USER]")
+CommandsTab:Label("uw / unwhitelist [USER]")
+CommandsTab:Label("c / clear")
+CommandsTab:Label("rj / rejoin")
+CommandsTab:Label("hop / serverhop")
+CommandsTab:Label("as / autoswing")
+CommandsTab:Label("unas / unautoswing")
+CommandsTab:Label("ws / speed / walkspeed [NUM]")
+
+-- Miscellaneous Tab
+
+MiscTab:Slider("Gravity", 196.2, 0, 196.2, function(Value)
+    Workspace.Gravity = Value
+end)
+
+MiscTab:Button("Spawn", function()
+    pcall(function()
+        if getgenv().Hiding then
+            local Speed = 54
+            local Distance = (Player.Character.HumanoidRootPart.Position - Spawn.Position).Magnitude
+            local TweenSpeed = Distance/tonumber(Speed)
+            local Tween = TweenService:Create(Player.Character.HumanoidRootPart, TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0), {CFrame = Spawn.CFrame * CFrame.new(0, -1.5, 0)})
+            Tween:Play()
+        else
+            local Speed = 54
+            local Distance = (Player.Character.HumanoidRootPart.Position - Spawn.Position).Magnitude
+            local TweenSpeed = Distance/tonumber(Speed)
+            local Tween = TweenService:Create(Player.Character.HumanoidRootPart, TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear), {CFrame = Spawn.CFrame * CFrame.new(0, 2.5, 0)})
+            Tween:Play()
+        end
+    end)
+end)
+
+MiscTab:Button("Rejoin", function()
+    TeleportService:TeleportToPlaceInstance(PlaceId, JobId, Player)
+end)
+
+MiscTab:Button("Server Hop", function()
+    local ServerTables = {}
+    for _, v in ipairs(HttpService:JSONDecode(game:HttpGetAsync("https://games.roblox.com/v1/games/" .. PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")).data) do
+        if type(v) == "table" and v.maxPlayers > v.playing and v.id ~= game.JobId then
+    	    ServerTables[#ServerTables + 1] = v.id
+        end
+    end
+    if #ServerTables > 0 then
+        pcall(function()
+            TeleportService:TeleportToPlaceInstance(PlaceId, ServerTables[math.random(1, #ServerTables)])
+        end)
+    else
+        Notify({
+            Description = "No Servers Found",
+            Title = "Error",
+            Duration = 5.75
+        })
+    end
+end)
+
+-- Credits Tab
+
+CreditsTab:Label("Version: 1.9.3")
+
+CreditsTab:Button("Owner - Siri", function()
+    setclipboard("Siri#4638")
+end)
+
+CreditsTab:Button("Main Scripter - Optional", function()
+    setclipboard("Optional#2413")
+end)
+---------------------------look at the discord code  
+CreditsTab:Button("Discord Invite", function()
+    request({
+       Url = "http://127.0.0.1:6463/rpc?v=1",
+       Method = "POST",
+       Headers = {
+           ["Content-Type"] = "application/json",
+           ["Origin"] = "https://discord.com"
+       },
+       Body = HttpService:JSONEncode({
+           cmd = "INVITE_BROWSER",
+           args = {
+               code = "3vsea8K3GQ"--you should use this discord code  
+           },
+           nonce = HttpService:GenerateGUID(false)
+       }),
+    })
+end)
+-------------------------------check out this cool discord code 
+function UpdateReach()
+    Player.Character.ChildAdded:Connect(function(Tool)
+    	if Tool:FindFirstChild("Handle") then
+    		ReachAttacher = Instance.new("Part", Camera)
+    		ReachWeld = Instance.new("Weld", Camera)
+			ReachViewer = Instance.new("SelectionSphere", Modules)
+            ReachAttacher.Name = "ReachAttacher"
+            ReachAttacher.Material = "ForceField"
+            ReachAttacher.CastShadow = false
+            ReachAttacher.Shape = "Ball"
+			ReachAttacher.Transparency = 1
+            ReachAttacher.Color = Color3.fromRGB(0, 0, 0)
+    		ReachAttacher.CanCollide = false
+    		ReachAttacher.Massless = true
+			ReachWeld.Name = "ReachWeld"
+			ReachWeld.Part0 = ReachAttacher
+			ReachWeld.Part1 = Player.Character.HumanoidRootPart
+            ReachViewer.Transparency = 1
+			ReachViewer.Color3 = Color3.fromRGB(0, 0, 0)
+			ReachViewer.SurfaceColor3 = Color3.fromRGB(0, 0, 0)
+            ReachViewer.Name = "ReachViewer"
+            ReachViewer.Adornee = ReachAttacher
+    		RunService.RenderStepped:Connect(function()
+                pcall(function()
+                    --ReachAttacher.Transparency = getgenv().ReachTransparency
+            		ReachViewer.SurfaceTransparency = getgenv().ReachTransparency
+                    ReachAttacher.Size = Vector3.new(getgenv().Reach, getgenv().Reach, getgenv().Reach)
+                end)
+    		end)
+    	end
+    end)
+end
+
+function UnEquipped()
+	Player.Character.ChildRemoved:Connect(function(Child)
+		if Child:FindFirstChild("Handle") then
+			for _, CameraDescendants in pairs(Camera:GetDescendants()) do
+				if CameraDescendants.Name == "ReachAttacher" or CameraDescendants.Name == "ReachWeld" or CameraDescendants.Name == "ReachViewer" then
+					CameraDescendants:Destroy()
+				end
+			end
+			for _, RobloxGuiDescendants in pairs(Modules:GetDescendants()) do
+				if RobloxGuiDescendants.Name == "ReachViewer" then
+					RobloxGuiDescendants:Destroy()
+				end
+			end
+		end
+	end)
+end
+
+UpdateReach()
+UnEquipped()
+
+Player.CharacterAdded:Connect(UnEquipped)
+Player.CharacterAdded:Connect(UpdateReach)
+
+function Shorten(Username)
+    local PlayerList = {}
+    for i,plrs in pairs(Players:GetPlayers()) do
+        if plrs.Name:lower():sub(1, #Username) == Username:lower() then
+            table.insert(PlayerList,plrs)
+        end
+    end
+    return PlayerList
+end
+
+function GetPlayer(String)
+    local plr
+    local strl = String:lower()
+        for i, v in pairs(Players:GetPlayers()) do
+            if v.Name:lower():sub(1, #String) == String:lower() then
+                plr = v
+            end 
+        end
+        if String == "" or String == " " then
+           plr = nil
+        end
+    return plr
+end
+
+-- Chat Commands One
+
+Player.Chatted:Connect(function(Message)
+    Message = Message:lower()
+    if string.sub(Message,1, 3) == "/e " then
+    	Message = string.sub(Message, 4)
+    end
+    if string.sub(Message, 1, 1) == getgenv().SuperiorPrefix then
+    	local cmd
+    	local space = string.find(Message," ")
+    	if space then
+    		cmd = string.sub(Message, 2, space - 1)
+    	else
+    		cmd = string.sub(Message, 2)
+    	end
+        if cmd == "cmds" or cmd == "commands" then
+            StarterGui:SetCore("ChatMakeSystemMessage", {
+            	Text = "Commands: cmds, commands, r, reach, amp, amplify t, target, tgo, targetorbit, to, goto, ht, hidetarget, wl, whitelist, uw, unwhitelist, c, clear, rj, rejoin, hop, serverhop, as, autoswing, unas, unautoswing, ws, speed, walkspeed, esp, noesp, safe, spawn",
+            	Color = Color3.fromRGB(128, 232, 155),
+            	Font = Enum.Font.GothamBold,
+                TextSize = 15
+            })
+        end
+        if cmd == "r" or cmd == "reach" then
+            local String = string.sub(Message, space + 1)
+            getgenv().Reach = tonumber(String)
+        end
+        if cmd == "r" or cmd == "reach" then
+            local String = string.sub(Message, space + 1)
+            getgenv().Amplifier = tonumber(String)
+        end
+        if cmd == "ws" or cmd == "speed" or cmd == "walkspeed" then
+            local String = string.sub(Message, space + 1)
+            getgenv().WalkSpeed = tonumber(String)
+        end
+        if cmd == "t" or cmd == "target" then
+    	    local String = string.sub(Message, space + 1)
+        	if getgenv().Hiding then
+        	    for i,v in pairs(Shorten(String)) do
+        	        if v.Character:WaitForChild("Humanoid").Health > 0 and not table.find(getgenv().SuperiorWhitelist, v.Name) then
+        	            task.spawn(function()
+        	                local OriginalCFrame = Player.Character:WaitForChild("HumanoidRootPart").CFrame
+        	                local TargetPos = v.Character.HumanoidRootPart.CFrame
+        	                local Speed = math.huge
+        	                local Distance = (Player.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).Magnitude
+        	                local TweenSpeed = Distance/tonumber(Speed)
+        	                local Tween = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0), {CFrame = TargetPos * CFrame.new(0, -2, 0)})
+        	                Tween:Play()
+        	                task.wait(0.1)
+        	                Player.Character:WaitForChild("HumanoidRootPart").CFrame = OriginalCFrame
+        	            end)
+        	        end
+        	    end
+        	else
+        	    for i,v in pairs(Shorten(String)) do
+        	        if v.Character:WaitForChild("Humanoid").Health > 0 and not table.find(getgenv().SuperiorWhitelist, v.Name) then
+        	            task.spawn(function()
+        	                local OriginalCFrame = Player.Character:WaitForChild("HumanoidRootPart").CFrame
+        	                local TargetPos = v.Character.HumanoidRootPart.CFrame
+        	                local Speed = math.huge
+        	                local Distance = (Player.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).Magnitude
+        	                local TweenSpeed = Distance/tonumber(Speed)
+        	                local Tween = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0), {CFrame = TargetPos * CFrame.new(-1.5, 0, 3)})
+        	                Tween:Play()
+        	                task.wait(0.1)
+        	                Player.Character:WaitForChild("HumanoidRootPart").CFrame = OriginalCFrame
+        	            end)
+        	        end
+        	    end
+        	end
+        end
+        if cmd == "esp" then
+            function LoopESP()
+                getgenv().ESP = true
+                while task.wait() do
+                    if getgenv().ESP then
+                        pcall(function()
+                            function ESP(PlayerESP)
+                                if PlayerESP ~= Player and PlayerESP.Character and PlayerESP.Character:FindFirstChild("HumanoidRootPart") and not PlayerESP.Character.HumanoidRootPart:FindFirstChild("UsernameTarget") then
+                                    local UsernameTarget = Instance.new("BillboardGui")
+                                    UsernameTarget.Name = "UsernameTarget"
+                                    UsernameTarget.AlwaysOnTop = true
+                                    UsernameTarget.LightInfluence = 1
+                                    UsernameTarget.StudsOffset = Vector3.new(0, 1, 0)
+                                    UsernameTarget.Adornee = PlayerESP.Character.Head
+                                    UsernameTarget.Parent = PlayerESP.Character.HumanoidRootPart
+                                    local UserTitle = Instance.new("TextLabel")
+                                    UserTitle.Name = "UserTitle"
+                                    UserTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                                    UserTitle.BackgroundTransparency = 1
+                                    UserTitle.Size = UDim2.new(1, 0, 1, 0)
+                                    UserTitle.Text = PlayerESP.Name
+                                    UserTitle.Parent = UsernameTarget
+                                    UserTitle.TextColor3 = Color3.new(255, 255, 255)
+                                    UserTitle.Font = Enum.Font.GothamBold
+                                    UserTitle.TextScaled = true
+                                    UserTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+                                    UserTitle.TextStrokeTransparency = 0
+                                    RunService.Stepped:Connect(function()
+                                        pcall(function()
+                                            UsernameTarget.Size = UDim2.new(0, getgenv().ESPNameSize, 0, getgenv().ESPNameSize)
+                                            if PlayerESP and not table.find(getgenv().SuperiorWhitelist, PlayerESP.Name) then
+                                                PlayerESP.Character.HumanoidRootPart.UsernameTarget.UserTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+                                            else
+                                                PlayerESP.Character.HumanoidRootPart.UsernameTarget.UserTitle.TextColor3 = Color3.fromRGB(54, 115, 214)
+                                            end
+                                            if PlayerESP.Character.Humanoid.Health == 0 then
+                                                pcall(function()
+                                                    PlayerESP.Character.HumanoidRootPart.UsernameTarget.UserTitle.TextColor3 = Color3.fromRGB(248, 169, 169)
+                                                end)
+                                            end
+                                        end)
+                                    end)
+                                end
+                            end
+                            for i,v in pairs(Players:GetPlayers()) do
+                                ESP(v)
+                            end
+                        end)
+                    end
+                end
+            end
+            LoopESP()
+        end
+        if cmd == "noesp" then
+            function UnESP()
+                getgenv().ESP = false
+                task.wait(0.1)
+                for i,v in pairs(Workspace:GetDescendants()) do
+                    if v.Name == "UsernameTarget" then
+                        v:Destroy()
+                    end
+                end
+            end
+            UnESP()
+        end
+        if cmd == "safe" or cmd == "spawn" then
+            pcall(function()
+                if getgenv().Hiding then
+                    local Speed = 54
+                    local Distance = (Player.Character.HumanoidRootPart.Position - Spawn.Position).Magnitude
+                    local TweenSpeed = Distance/tonumber(Speed)
+                    local Tween = TweenService:Create(Player.Character.HumanoidRootPart, TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0), {CFrame = Spawn.CFrame * CFrame.new(0, -1.5, 0)})
+                    Tween:Play()
+                else
+                    local Speed = 54
+                    local Distance = (Player.Character.HumanoidRootPart.Position - Spawn.Position).Magnitude
+                    local TweenSpeed = Distance/tonumber(Speed)
+                    local Tween = TweenService:Create(Player.Character.HumanoidRootPart, TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear), {CFrame = Spawn.CFrame * CFrame.new(0, 2.5, 0)})
+                    Tween:Play()
+                end
+            end)
+        end
+        if cmd == "to" or cmd == "goto" then
+            local String = string.sub(Message,space + 1)
+            task.spawn(function()
+                if getgenv().Hiding then
+                    for _, Varieties in pairs(Shorten(String)) do
+                        if Varieties.Character:WaitForChild("Humanoid").Health > 0 then
+                            local TargetRootPart = Varieties.Character:WaitForChild("HumanoidRootPart")
+                            local Speed = 54
+                            local Distance = (Player.Character.HumanoidRootPart.Position - TargetRootPart.Position).Magnitude
+                            local TweenSpeed = Distance/tonumber(Speed)
+                            local Tween = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear), {CFrame = TargetRootPart.CFrame * CFrame.new(0, -2, 0)})
+                            Tween:Play()
+                        end
+                    end
+                else
+                    for _, Varieties in pairs(Shorten(String)) do
+                        if Varieties.Character:WaitForChild("Humanoid").Health > 0 then
+                            local TargetRootPart = Varieties.Character:WaitForChild("HumanoidRootPart")
+                            local Speed = 54
+                            local Distance = (Player.Character.HumanoidRootPart.Position - TargetRootPart.Position).Magnitude
+                            local TweenSpeed = Distance/tonumber(Speed)
+                            local Tween = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear), {CFrame = TargetRootPart.CFrame})
+                            Tween:Play()
+                        end
+                    end
+                end
+            end)
+        end
+        if cmd == "ht" or cmd == "hidetarget" then
+            local String = string.sub(Message, space + 1)
+            task.spawn(function()
+                if getgenv().Hiding then
+                    for i,v in pairs(Shorten(String)) do
+                        task.spawn(function()
+                            if v.Character:WaitForChild("Humanoid").Health > 0 and not table.find(getgenv().SuperiorWhitelist, v.Name) then
+                                local Humanoid = Player.Character:FindFirstChildOfClass("Humanoid") or Player.Character:FindFirstChildOfClass("AnimationController")
+                                local HideAnimation = Instance.new("Animation")
+                                HideAnimation.AnimationId = "rbxassetid://181526230"
+                                local Humanoid = Player.Character:WaitForChild("Humanoid")
+                                local LoadAnimation = Humanoid:LoadAnimation(HideAnimation)
+                                local Baseplate = Base
+                                Base.CanCollide = false
+                                KillPart.Position = Vector3.new(0, -5000, 0)
+                                local OriginalCFrame = Player.Character:WaitForChild("HumanoidRootPart").CFrame
+                                local TargetPos = v.Character.HumanoidRootPart.CFrame
+                                local Speed = math.huge
+                                local Distance = (Player.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).Magnitude
+                                local TweenSpeed = Distance/tonumber(Speed)
+                                local Tween = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0), {CFrame = TargetPos * CFrame.new(0, -3, 0)})
+                                Player.Character.Animate.Disabled = true
+                                Workspace.Gravity = 0
+                                LoadAnimation:Play()
+                                Tween:Play()
+                                task.wait(0.09)
+                                Workspace.Gravity = 196.2
+                                Player.Character:WaitForChild("HumanoidRootPart").CFrame = OriginalCFrame
+                                HideAnimation:Destroy()
+                                Base.CanCollide = true
+                                KillPart.Position = Vector3.new(0, -83.5, 0)
+                                Player.Character.Animate.Disabled = false
+	                            for i,v in next, Humanoid:GetPlayingAnimationTracks() do
+	                            	v:Stop()
+	                            end
+                            end
+                        end)
+                    end
+                else
+                    for i,v in pairs(Shorten(String)) do
+                        task.spawn(function()
+                            if v.Character:WaitForChild("Humanoid").Health > 0 and not table.find(getgenv().SuperiorWhitelist, v.Name) then
+                                local Humanoid = Player.Character:FindFirstChildOfClass("Humanoid") or Player.Character:FindFirstChildOfClass("AnimationController")
+                                local HideAnimation = Instance.new("Animation")
+                                HideAnimation.AnimationId = "rbxassetid://181526230"
+                                local Humanoid = Player.Character:WaitForChild("Humanoid")
+                                local LoadAnimation = Humanoid:LoadAnimation(HideAnimation)
+                                local Baseplate = Base
+                                Base.CanCollide = false
+                                KillPart.Position = Vector3.new(0, -5000, 0)
+                                local OriginalCFrame = Player.Character:WaitForChild("HumanoidRootPart").CFrame
+                                local TargetPos = v.Character.HumanoidRootPart.CFrame
+                                local Speed = math.huge
+                                local Distance = (Player.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).Magnitude
+                                local TweenSpeed = Distance/tonumber(Speed)
+                                local Tween = TweenService:Create(Player.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0), {CFrame = TargetPos * CFrame.new(0, -11.5, 0)})
+                                Player.Character.Animate.Disabled = true
+                                Workspace.Gravity = 0
+                                LoadAnimation:Play()
+                                Tween:Play()
+                                task.wait(0.09)
+                                Workspace.Gravity = 196.2
+                                Player.Character:WaitForChild("HumanoidRootPart").CFrame = OriginalCFrame
+                                HideAnimation:Destroy()
+                                Base.CanCollide = true
+                                KillPart.Position = Vector3.new(0, -83.5, 0)
+                                Player.Character.Animate.Disabled = false
+	                            for i,v in next, Humanoid:GetPlayingAnimationTracks() do
+	                            	v:Stop()
+	                            end
+                            end
+                        end)
+                    end
+                end
+            end)
+        end
+    end
+end)
+
+-- Chat Commands Function
+
+function WLAndUnWL(plr)
+    Player.Chatted:Connect(function(Message)
+        Message = Message:lower()
+        if string.sub(Message,1,3) == "/e " then
+        	Message = string.sub(Message,4)
+        end
+        if string.sub(Message,1,1) == getgenv().SuperiorPrefix then
+        	local cmd
+        	local space = string.find(Message," ")
+        	if space then
+        		cmd = string.sub(Message,2,space-1)
+        	else
+        		cmd = string.sub(Message,2)
+        	end
+            if cmd == "wl" or cmd == "whitelist" then
+                function Whitelist(wlplr)
+                    table.insert(getgenv().SuperiorWhitelist, wlplr)
+                end
+                local String = string.sub(Message,space +1)
+                local WhitelistedTarget = GetPlayer(String)
+                pcall(function()
+                    Whitelist(WhitelistedTarget.Name)
+    			    if WhitelistedTarget ~= nil and WhitelistedTarget ~= Player and WhitelistedTarget ~= plr and not table.find(getgenv().SuperiorWhitelist, plr.Name) then
+    			    	Whitelist(WhitelistedTarget.Name)
+    			    end
+                end)
+            end
+            if cmd == "uw" or cmd == "unwhitelist" then
+                function UnWhitelist(unwlplr)
+                    for num, user in pairs(getgenv().SuperiorWhitelist) do
+                    	if user == unwlplr then
+                    		table.remove(getgenv().SuperiorWhitelist, num)
+                    	end
+                    end
+                end
+                local String = string.sub(Message,space + 1)
+                local UnWhitelistedTarget = GetPlayer(String)
+                pcall(function()
+                    UnWhitelist(UnWhitelistedTarget.Name)
+    			    if UnWhitelistedTarget ~= nil and UnWhitelistedTarget ~= Player and UnWhitelistedTarget ~= plr and not table.find(getgenv().SuperiorWhitelist, plr.Name) then
+    			    	UnWhitelist(UnWhitelistedTarget.Name)
+    			    end
+                end)
+            end
+            if cmd == "c" or cmd == "clear" then
+        	    table.clear(getgenv().SuperiorWhitelist)
+            end
+            if cmd == "rj" or cmd == "rejoin" then
+                RunService.Stepped:Connect(function()
+                    pcall(function()
+                        TeleportService:TeleportToPlaceInstance(PlaceId, JobId, Player)
+                    end)
+                end)
+            end
+            if cmd == "hop" or cmd == "sh" or cmd == "serverhop" then
+    	        local ServerTables = {}
+    	        for _, v in ipairs(HttpService:JSONDecode(game:HttpGetAsync("https://games.roblox.com/v1/games/" .. PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")).data) do
+    	            if type(v) == "table" and v.maxPlayers > v.playing and v.id ~= game.JobId then
+    	        	    ServerTables[#ServerTables + 1] = v.id
+    	            end
+    	        end
+    	        if #ServerTables > 0 then
+                    pcall(function()
+    	                TeleportService:TeleportToPlaceInstance(PlaceId, ServerTables[math.random(1, #ServerTables)])
+                    end)
+    	        else
+    	            Notify({
+                        Description = "No Servers Found",
+                        Title = "Error",
+                        Duration = 5.75
+                    })
+    	        end
+            end
+            if cmd == "as" or cmd == "autoswing" then
+                getgenv().AutoSwing = true
+            end
+            if cmd == "unas" or cmd == "unautoswing" then
+                getgenv().AutoSwing = false
+            end
+        end
+    end)
+end
+
+-- Loops and Adds
+
+for _, gotplayer in pairs(Players:GetPlayers()) do
+    WLAndUnWL(gotplayer)
+end
+
+Players.PlayerAdded:Connect(function(plr)
+    WLAndUnWL(plr)
+end)
+
+InputService.InputBegan:Connect(function(Input, GetInput)
+    if GetInput then
+        return
+    end
+
+    if Input.KeyCode == Enum.KeyCode.LeftAlt then
+        getgenv().AutoSwing = not getgenv().AutoSwing
+    end
+end)
+
+RunService.RenderStepped:Connect(function()
+    pcall(function()
+        Player.Character.HumanoidRootPart.Velocity = Vector3.new(Player.Character.Humanoid.MoveDirection.X * getgenv().WalkSpeed, Player.Character.HumanoidRootPart.Velocity.Y + getgenv().JumpOffset, Player.Character.Humanoid.MoveDirection.Z * getgenv().WalkSpeed)
+    end)
+    pcall(function()
+        if getgenv().AutoSwing then
+            local Tool = Player.Character:FindFirstChildOfClass("Tool")
+            Tool:Activate()
+        end
+    end)
+    pcall(function()
+        Player.Character.Humanoid.Died:Connect(function()
+            if getgenv().Hiding then
+                local OldDeadCFrame = Player.Character.HumanoidRootPart.CFrame
+                Structure.FakeKillPartFolder:Destroy()
+                for _, Parts in pairs(Structure:GetChildren()) do
+                    if Parts:IsA("BasePart") then
+                        Parts.CanCollide = true
+                    end
+                end
+                KillPart.Position = Vector3.new(0, -83.5, 0)
+                Spawn.CanCollide = false
+                TimeLeaderboard.CanCollide = false
+                KillLeaderboard.CanCollide = false
+                Player.Character.Head.CFrame = OldDeadCFrame * CFrame.new(0, 1, 0)
+                for _, DeadParts in pairs(Player.Character:GetChildren()) do
+                    if DeadParts:IsA("BasePart") then
+                        DeadParts.CFrame = OldDeadCFrame * CFrame.new(0, 1, 0)
+                    end
+                end
+                getgenv().Hiding = false
+            end
+        end)
+    end)
+end)
